@@ -127,7 +127,7 @@
 #endif
 
 // --- SD Options ---
-#define is_sd         0		// 1 to enable SD card 
+#define is_sd         1		// 1 to enable SD card 
 #if is_sd == 1
 	// Does NOT automatically save to SD
 	// This works more like a filter than an automator,
@@ -171,7 +171,7 @@
 // --- Enabled Actuators --- 
 #define num_servos    0 	// Number of servos being used (up to 8 per shield, testing has generally only been through 1 shield)
 #define num_steppers  0		// Number of stepper motors being used 
-#define is_relay      0		// 1 if a relay is being used
+#define is_relay      1		// 1 if a relay is being used
 #if is_relay == 1
 	#define relay_pin 10	// Digital pin connected to the relay enable 
 #endif
@@ -206,7 +206,7 @@
 // Using I2C sensors without the multiplexer
 // Multiplexer / aggregate device may override these settings
 #define is_as726X          0	// Spectral Sensor (visible 7262 /near IR 7263) [cannot be used with TSL2561 or AS7265X]
-#define is_as7265X         0	// Spectral Sensor Triad [cannot be used with TSL2561 or AS726X]
+#define is_as7265X         1	// Spectral Sensor Triad [cannot be used with TSL2561 or AS726X]
 #define is_tsl2591         0	// Lux Sensor
 #define is_tsl2561         0	// Lux Sensor [cannot be used with AS726X or AS7265X]
 	#if is_tsl2561 == 1
