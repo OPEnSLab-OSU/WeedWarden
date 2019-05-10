@@ -1,0 +1,18 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "C:\\\\Users\\\\vinay\\\\AppData\\\\Local\\\\Arduino15\\\\packages\\\\adafruit\\\\hardware\\\\samd\\\\1.4.1\\\\**"
+            ],
+            "forcedInclude": [
+                "C:\\\\Users\\\\vinay\\\\AppData\\\\Local\\\\Arduino15\\\\packages\\\\adafruit\\\\hardware\\\\samd\\\\1.4.1\\\\cores\\\\arduino\\\\Arduino.h"
+            ],
+            "intelliSenseMode": "msvc-x64",
+            "compilerPath": "D:/Program Files/Microsoft Visual Studio/2017/Enterprise/VC/Tools/MSVC/14.14.26428/bin/Hostx64/x64/cl.exe",
+            "cStandard": "c11",
+            "cppStandard": "c++17"
+        }
+    ],
+    "version": 4
+}
