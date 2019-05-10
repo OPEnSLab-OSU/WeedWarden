@@ -136,7 +136,7 @@
 	#define sdSaveFilter  	 1 	// 1 to enable a millis delay to SD 
 	#define sdSaveMinDelay   1  // minimum delay in seconds between saves (only applies sdSaveFilter is 1)
 
-	#define sdBroadcastSave  0  // 1 to broadcast on communication platforms when data is saved to SD, 0 to not 
+	#define sdBroadcastSave  1  // 1 to broadcast on communication platforms when data is saved to SD, 0 to not 
 #endif
 
 
