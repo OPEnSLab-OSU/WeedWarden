@@ -5,7 +5,7 @@
 // ================================================================
 
 // Config has to be first has it hold all user specified options
-#include "config.h"
+#include "./config.h"
 
 
 
