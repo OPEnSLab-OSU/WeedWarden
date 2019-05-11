@@ -13,6 +13,7 @@
 // on options specified in the above config
 #include "loom_preamble.h"
 
+//int led = 13;
 
 // ================================================================ 
 // ===                           SETUP                          ===
@@ -20,10 +21,10 @@
 void setup() 
 {
 
-
+	pinMode(led, OUTPUT);   
 	// LOOM_begin calls any relevant (based on config) LOOM device setup functions
 	Loom_begin();	
-
+	setup_as7265X();
 	// Any custom setup code
 	pinMode(5, INPUT_PULLUP);
 	pinMode(6, INPUT_PULLUP);
@@ -45,11 +46,18 @@ void loop()
 	// receive_bundle(&bndl, WIFI);
 	// process_bundle(&bndl);
 
-	measure_sensors();				// Read sensors, store data in sensor state struct
-	package_data(&bndl);			// Copy sensor data from state to provided bundle
+	measure_as7265X();
+	package_as7265X(&bndl, "Triad");
 
-	append_to_bundle_key_value(&bndl, "pin5", digitalRead(5));
-	append_to_bundle_key_value(&bndl, "pin6", digitalRead(6));
+
+	print_bundle(&bndl);
+
+	log_bundle(&bndl, SDCARD, "trisensor.csv"); 
+
+	//Serial.Print("does this thing work");
+
+	//append_to_bundle_key_value(&bndl, "pin5", digitalRead(5));
+	//append_to_bundle_key_value(&bndl, "pin6", digitalRead(6));
 	// append_to_bundle_key_value(&bndl, "pin7", digitalRead(7));
 	// append_to_bundle_key_value(&bndl, "pin8", digitalRead(8));	
 	// append_to_bundle_key_value(&bndl, "pin9", digitalRead(9));
@@ -58,13 +66,12 @@ void loop()
 	// append_to_bundle_key_value(&bndl, "pin10", digitalRead(10));
 
 
-	print_bundle(&bndl);
+	//print_bundle(&bndl);
 	
 
-	// log_bundle(&bndl, SDCARD, "evapdata.csv");
+	 //log_bundle(&bndl, SDCARD, "evapdata.csv");
 	// send_bundle(&bndl, WIFI);
 	// 
-	delay(100);
 
 	additional_loop_checks();		// Miscellaneous checks
 
@@ -74,15 +81,15 @@ void loop()
 
 	// // --- OLED Example ---
 
-	// measure_sensors();			// Read sensors, store data in sensor state struct
-	// package_data(&bndl);			// Copy sensor data from state to provided bundle
+	 //measure_sensors();			// Read sensors, store data in sensor state struct
+	 //package_data(&bndl);			// Copy sensor data from state to provided bundle
 	
-	// print_bundle(&bndl);
+	 //print_bundle(&bndl);
 	// log_bundle(&bndl, OLED);
 
 	// delay(1000);
 
-	// additional_loop_checks();	// Miscellaneous checks
+	 //additional_loop_checks();	// Miscellaneous checks
 
 	// // --- End Example ---
 
