@@ -127,7 +127,7 @@
 #endif
 
 // --- SD Options ---
-#define is_sd         1		// 1 to enable SD card 
+#define is_sd         0		// 1 to enable SD card 
 #if is_sd == 1
 	// Does NOT automatically save to SD
 	// This works more like a filter than an automator,
@@ -171,7 +171,7 @@
 // --- Enabled Actuators --- 
 #define num_servos    0 	// Number of servos being used (up to 8 per shield, testing has generally only been through 1 shield)
 #define num_steppers  0		// Number of stepper motors being used 
-#define is_relay      1		// 1 if a relay is being used
+#define is_relay      0		// 1 if a relay is being used
 #if is_relay == 1
 	#define relay_pin 10	// Digital pin connected to the relay enable 
 #endif
@@ -238,7 +238,7 @@
 	#endif
 
 
-#define is_max31856 	1
+#define is_max31856 	0
 
 
 // ================================================================ 

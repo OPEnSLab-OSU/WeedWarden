@@ -46,13 +46,17 @@ void loop()
 	// receive_bundle(&bndl, WIFI);
 	// process_bundle(&bndl);
 
-	measure_as7265X();
-	package_as7265X(&bndl, "Triad");
+	//measure_as7265X();
+	//package_as7265X(&bndl, "Triad");
 
+	measure_sensors();				// Read sensors, store data in sensor state struct
+	package_data(&bndl);
+
+	Serial.println(state_as7265X_0x49.a);
 
 	print_bundle(&bndl);
 
-	log_bundle(&bndl, SDCARD, "trisensor.csv"); 
+	//log_bundle(&bndl, SDCARD, "trisensor.csv"); 
 
 	//Serial.Print("does this thing work");
 
@@ -87,7 +91,7 @@ void loop()
 	 //print_bundle(&bndl);
 	// log_bundle(&bndl, OLED);
 
-	// delay(1000);
+	 delay(5000);
 
 	 //additional_loop_checks();	// Miscellaneous checks
 

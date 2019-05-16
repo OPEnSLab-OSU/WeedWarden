@@ -273,7 +273,7 @@ void measure_as7265X()
 		state_as7265X_0x49.v = inst_as7265X_0x49.getCalibratedV();
 		state_as7265X_0x49.w = inst_as7265X_0x49.getCalibratedW();
 
-		// inst_as7265X_0x49.printMeasurements();
+		//inst_as7265X_0x49.printMeasurements();
 
 	#endif
 }
