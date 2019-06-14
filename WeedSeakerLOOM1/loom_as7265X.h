@@ -69,10 +69,10 @@ bool setup_as7265X()
 
   //There are four gain settings. It is possible to saturate the reading so don't simply jump to 64x.
   //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-  inst_as7265X_0x49.setGain(AS7265X_GAIN_1X); 		//Default
+  //inst_as7265X_0x49.setGain(AS7265X_GAIN_1X); 		//Default
   // inst_as7265X_0x49.setGain(AS7265X_GAIN_37X); 	//This is 3.7x
   // inst_as7265X_0x49.setGain(AS7265X_GAIN_16X);
-  //inst_as7265X_0x49.setGain(AS7265X_GAIN_64X);
+  inst_as7265X_0x49.setGain(AS7265X_GAIN_64X);
   //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
   //There are four measurement modes - the datasheet describes it best
