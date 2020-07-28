@@ -141,7 +141,7 @@ void loop()
 //// ****  ALGORITHM  **** ////
 
   if (ndvib > 0.25) {
-     if ((a < c && b < c && d < c && e < c && f < c && k < o  && k < p)){
+     if ((a < c && b < c && d < c && e < c && f < c && k < o  && k < p)){ // testing ratios
           Serial.println("++++++++++++++++++++++++++++++++++++++");
           Serial.println("++++++++++ This Is A Target ++++++++++");
           Serial.println("++++++++++++++++++++++++++++++++++++++");
