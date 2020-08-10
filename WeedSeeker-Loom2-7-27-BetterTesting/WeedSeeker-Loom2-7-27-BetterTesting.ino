@@ -18,13 +18,17 @@
 ///////////////////////////////////////////////////////////////////////////////
 // WeedWarden
 #include <Loom.h>
-#include "Snapshot.h"
+//#include "Snapshot.h"
 //#include "Loom_AS7265X.cpp"
+
+
 
 // Include configuration
 const char* json_config = 
 #include "config.h"
 ;
+
+
 
 // Set enabled modules
 LoomFactory<
@@ -39,14 +43,17 @@ LoomManager Loom{ &ModuleFactory };
 
 int relaySet = A5;
 int ledpin = A1;
+int VEn = 5; 
 
 void setup() 
 { 
+  pinMode(VEn, OUTPUT); 
+  digitalWrite(VEn, LOW); 
 	Loom.begin_LED();
 	Loom.begin_serial(true);
 	Loom.parse_config(json_config);
 	Loom.print_config();
-  setup_ttl();
+  //setup_ttl();
 	LPrintln("\n ** Setup Complete ** ");
  
   pinMode(relaySet, OUTPUT);
@@ -56,6 +63,27 @@ void setup()
 //  digitalWrite(ledpin, LOW); 
   
 }
+
+// ================================================================ 
+// ===                        LATCHED RELAY                     ===
+// ================================================================  
+void unlatchedRelay(bool io)
+{
+  if(io)
+  {
+    digitalWrite(relaySet, HIGH);   // turn A5 on
+    delay(2500);
+    digitalWrite(relaySet, LOW);    //turn A5 off
+  }
+  else                       
+  {  
+    digitalWrite(relaySet, LOW);    //turn A5 off
+  }
+  
+  delay(10); // wait for stability
+  
+}
+
 
 void loop() 
 {
@@ -185,22 +213,3 @@ void loop()
   Loom.pause();
 }
 
-// ================================================================ 
-// ===                        LATCHED RELAY                     ===
-// ================================================================  
-void unlatchedRelay(bool io)
-{
-  if(io)
-  {
-    digitalWrite(relaySet, HIGH);   // turn A5 on
-    delay(2500);
-    digitalWrite(relaySet, LOW);    //turn A5 off
-  }
-  else                       
-  {  
-    digitalWrite(relaySet, LOW);    //turn A5 off
-  }
-  
-  delay(10); // wait for stability
-  
-}
