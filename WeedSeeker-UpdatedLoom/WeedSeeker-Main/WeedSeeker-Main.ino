@@ -154,7 +154,7 @@ void loop()
 
       Loom.SDCARD().log("Green.csv");
       delay(500);
-      digitalWrite(ledpin, HIGH);
+      
       // Need to turn on the 12V rail here
       digitalWrite(HVEn, HIGH);   // This line will set the 5V and V+ Hypnos rail to high enabling the sprayer
       delay(1000);                // Set this line to delay for however long you want the sprayer to spray for
