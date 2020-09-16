@@ -28,6 +28,9 @@ const char* json_config =
 #include "config.h"
 ;
 
+#define VBATPIN A7 // pin connected to the 3.7V battery 
+#define LVEn 5  // pin 5 is the 3.3V Enable
+#define HVEn 6  // pin 6 is the 5V Enable 
 
 
 // Set enabled modules
@@ -43,12 +46,15 @@ LoomManager Loom{ &ModuleFactory };
 
 int relaySet = A5;
 int ledpin = A1;
-int VEn = 5; 
 
 void setup() 
 { 
-  pinMode(VEn, OUTPUT); 
-  digitalWrite(VEn, LOW); 
+  pinMode(LVEn, OUTPUT);   // LVEn is the pin that enables the hypnos board 3.3V 
+  pinMode(HVEn, OUTPUT);    // Enable the 5V output
+
+  digitalWrite(HVEn, HIGH); 
+  digitalWrite(LVEn, LOW);   
+
 	Loom.begin_LED();
 	Loom.begin_serial(true);
 	Loom.parse_config(json_config);
@@ -85,27 +91,47 @@ void unlatchedRelay(bool io)
 }
 
 
+//================================================================
+//===                     Measure battery                     ====
+//================================================================
+int MeasureBat()
+{
+  float measuredvbat = analogRead(VBATPIN);
+  measuredvbat *= 2; 
+  measuredvbat *= 3.3; 
+  measuredvbat /= 1024; 
+
+  return measuredvbat; 
+}
+
+
 void loop() 
 {
 
-
 //// ****  Sense and Store  **** ////
-  
+
 	Loom.measure();
+
   auto package = Loom.package();
+
 	Loom.display_data();
-  Loom.SDCARD().log("ALL.csv");
+
+  LPrintln(MeasureBat());
+
+  Loom.SDCARD().log();
 
   String time = package["timestamp"]["time"].as<const char*>();
   String seconds = time.substring(6);
   int sec = seconds.toInt();
  
-  while(sec%2 != 0){
+
+
+   while(sec%2 != 0){
     package = Loom.package(); 
     time = package["timestamp"]["time"].as<const char*>();
     seconds = time.substring(6);
     sec = seconds.toInt();
-  }
+  } 
 
 
 //// ****  NDVI Calculation  **** ////

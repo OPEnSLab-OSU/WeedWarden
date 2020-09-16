@@ -137,22 +137,27 @@ void loop()
   float n_w = n/total; Serial.println(n_w);
   float o_w = o/total; Serial.println(o_w);
 
-  float ndvib = (((m_w + n_w + j_w + k_w) - 2*(b_w + c_w))/((m_w + n_w + j_w + k_w) + 2*(b_w* + c_w)));
- 
+  float ndvi = ((o_w-k_w)/(o_w+k_w));
+  float evi = ((2.5*(o_w-k_w))/(o_w+6*k_w-7.5*a_w+1));
+
+
   Serial.println("++++++++++++++++");
   LPrint("Total = "); LPrintln(total);
   LPrint("b_w = ");   LPrintln(b_w);
-  LPrint("ndvib = "); LPrintln(ndvib);
+  LPrint("ndvi = "); LPrintln(ndvi);
+  LPrint("evi = "); LPrintln(evi);
 
-  if(ndvib > .25)
+  if(ndvi > .25 && evi > 0)
   {
-    if ((a < c && b < c && d < c && e < c && f < c && k < o  && k < p))
-    { // testing ratios
+     if ((a < c && b < c && d < c && e < c && f < c && k < o  && k < p))
+     { // testing ratios
       Serial.println("++++++++++++++++++++++++++++++++++++++");
       Serial.println("++++++++++ This Is A Target ++++++++++");
       Serial.println("++++++++++++++++++++++++++++++++++++++");
 
-      Loom.SDCARD().log("Green.csv");
+
+      delay(1000);
+      Loom.SDCARD().log();
       delay(500);
       
       // Need to turn on the 12V rail here

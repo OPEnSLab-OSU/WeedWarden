@@ -23,7 +23,7 @@
 		},\
     {\
       'name':'SD',\
-      'params':[true,1000,4,'all.csv',true]\
+      'params':[true,1000,10,'all.csv',true]\
     }\
 	]\
 }"
