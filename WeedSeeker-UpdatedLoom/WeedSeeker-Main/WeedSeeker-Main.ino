@@ -88,39 +88,47 @@ int MeasureBat()
 
 void loop()
 {
+  for(int LightState = 0; LightState<2; LightState++)
+  {
+    // Set the State of the growlight to alternate
+    if(LightState==0)
+      digitalWrite(HVEn, LOW); 
+    else
+      digitalWrite(HVEn, HIGH); 
+
   // Measure the data from sensor 
   Loom.measure();                         
 
   // Store data in JSON package
   JsonObject SensorData = Loom.package(); 
 
+  // Add the state of the Growlight to the file 
+  Loom.add_data("LightState", "LightState", LightState);
+
   // Serialize the JSON Object and print it to the Serial Monitor
   serializeJsonPretty(SensorData, Serial); 
-
-  // Log the data to SD Card 
-  Loom.SDCARD().log(); 
 
   //// ****  NDVI Calculation  **** ////
   Serial.println("+++++ START +++++");
   JsonObject as7265x = (SensorData["contents"].as<JsonArray>())[1]["data"];
-  uint16_t a = as7265x["a"]; a = (int)a; Serial.println(a);
-  uint16_t b = as7265x["b"]; b = (int)b; Serial.println(b);
-  uint16_t c = as7265x["c"]; c = (int)c; Serial.println(c);
-  uint16_t d = as7265x["d"]; d = (int)d; Serial.println(d);
-  uint16_t e = as7265x["e"]; e = (int)e; Serial.println(e);
-  uint16_t f = as7265x["f"]; f = (int)f; Serial.println(f);
-  uint16_t g = as7265x["g"]; g = (int)g; Serial.println(g);
-  uint16_t h = as7265x["h"]; h = (int)h; Serial.println(h);
-  uint16_t i = as7265x["i"]; i = (int)i; Serial.println(i);
-  uint16_t j = as7265x["j"]; j = (int)j; Serial.println(j);
-  uint16_t k = as7265x["k"]; k = (int)k; Serial.println(k);
-  uint16_t l = as7265x["l"]; l = (int)l; Serial.println(l); 
-  uint16_t m = as7265x["r"]; m = (int)m; Serial.println(m);
-  uint16_t n = as7265x["s"]; n = (int)n; Serial.println(n);
-  uint16_t o = as7265x["t"]; o = (int)o; Serial.println(o);
-  uint16_t p = as7265x["u"]; p = (int)p; Serial.println(p);
-  uint16_t q = as7265x["v"]; q = (int)q; Serial.println(q);
-  uint16_t r = as7265x["w"]; r = (int)r; Serial.println(r);
+  uint16_t a = as7265x["a"]; a = (int)a; Serial.println(a); // 410
+  uint16_t b = as7265x["b"]; b = (int)b; Serial.println(b); // 435
+  uint16_t c = as7265x["c"]; c = (int)c; Serial.println(c); // 460
+  uint16_t d = as7265x["d"]; d = (int)d; Serial.println(d); // 485
+  uint16_t e = as7265x["e"]; e = (int)e; Serial.println(e); // 510
+  uint16_t f = as7265x["f"]; f = (int)f; Serial.println(f); // 535
+  uint16_t g = as7265x["g"]; g = (int)g; Serial.println(g); // 560
+  uint16_t h = as7265x["h"]; h = (int)h; Serial.println(h); // 585
+  uint16_t i = as7265x["i"]; i = (int)i; Serial.println(i); // 610
+  uint16_t j = as7265x["j"]; j = (int)j; Serial.println(j); // 645
+  uint16_t k = as7265x["k"]; k = (int)k; Serial.println(k); // 680
+  uint16_t l = as7265x["l"]; l = (int)l; Serial.println(l); // 705
+  uint16_t m = as7265x["r"]; m = (int)m; Serial.println(m); // 730
+  uint16_t n = as7265x["s"]; n = (int)n; Serial.println(n); // 760
+  uint16_t o = as7265x["t"]; o = (int)o; Serial.println(o); // 810
+  uint16_t p = as7265x["u"]; p = (int)p; Serial.println(p); // 860
+  uint16_t q = as7265x["v"]; q = (int)q; Serial.println(q); // 900
+  uint16_t r = as7265x["w"]; r = (int)r; Serial.println(r); // 940
 
   float total = a + b + c + d + e + f + g + h + i + j + k + l + m + n + o + p + q + r;
   
@@ -140,12 +148,19 @@ void loop()
   float ndvi = ((o_w-k_w)/(o_w+k_w));
   float evi = ((2.5*(o_w-k_w))/(o_w+6*k_w-7.5*a_w+1));
 
+  // Add Values to the JSON Package
+  Loom.add_data("EVI", "EVI", evi);
+  Loom.add_data("NDVI", "NDVI", ndvi);
+
+  // Log the data to SD Card 
+  Loom.SDCARD().log(); 
 
   Serial.println("++++++++++++++++");
   LPrint("Total = "); LPrintln(total);
   LPrint("b_w = ");   LPrintln(b_w);
   LPrint("ndvi = "); LPrintln(ndvi);
   LPrint("evi = "); LPrintln(evi);
+  LPrint("Growlight State = "); LPrintln(LightState); 
 
   if(ndvi > .25 && evi > 0)
   {
@@ -183,4 +198,5 @@ void loop()
 
   Serial.println("+++++ End +++++"); 
   Loom.pause();
+  }
 }
