@@ -145,12 +145,14 @@ void loop()
   float n_w = n/total; Serial.println(n_w);
   float o_w = o/total; Serial.println(o_w);
 
-  float ndvi = ((o_w-k_w)/(o_w+k_w));
+  float ndvib = ((m_w + n_w + j_w + k_w) - 2*(b_w + c_w))/((m_w + n_w + j_w + k_w) + 2*(b_w* + c_w));
+  float psnd = ((o_w-f_w)/(o_w+f_w));
   float evi = ((2.5*(o_w-k_w))/(o_w+6*k_w-7.5*a_w+1));
 
   // Add Values to the JSON Package
-  Loom.add_data("EVI", "EVI", evi);
   Loom.add_data("NDVI", "NDVI", ndvi);
+  Loom.add_data("EVI", "EVI", evi);
+  Loom.add_data("PSND", "PSND", psnd);
 
   // Log the data to SD Card 
   Loom.SDCARD().log(); 
