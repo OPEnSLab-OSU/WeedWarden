@@ -139,18 +139,20 @@ void loop()
   float d_w = d/total; Serial.println(d_w);
   float e_w = b/total; Serial.println(e_w);
   float f_w = b/total; Serial.println(f_w);
+  float g_w = g/total; Serial.println(g_w);
   float j_w = j/total; Serial.println(j_w); 
   float k_w = k/total; Serial.println(k_w);
   float m_w = m/total; Serial.println(m_w);
   float n_w = n/total; Serial.println(n_w);
   float o_w = o/total; Serial.println(o_w);
+  float p_w = p/total; Serial.println(p_w);
 
-  float ndvib = ((m_w + n_w + j_w + k_w) - 2*(b_w + c_w))/((m_w + n_w + j_w + k_w) + 2*(b_w* + c_w));
+  float ndvib = ((n_w + o_w + p_w + e_w + f_w + g_w) - 2*(b_w + c_w + d_w))/((n_w + o_w + p_w + e_w + f_w + g_w) + 2*(b_w + c_w + d_w));
   float psnd = ((o_w-f_w)/(o_w+f_w));
-  float evi = ((2.5*(o_w-k_w))/(o_w+6*k_w-7.5*a_w+1));
+  float evi = ((2.5*(o_w-k_w))/(o_w+6*k_w-7.5*b_w+1));
 
   // Add Values to the JSON Package
-  Loom.add_data("NDVI", "NDVI", ndvi);
+  Loom.add_data("NDVIB", "NDVIB", ndvib);
   Loom.add_data("EVI", "EVI", evi);
   Loom.add_data("PSND", "PSND", psnd);
 
@@ -160,11 +162,11 @@ void loop()
   Serial.println("++++++++++++++++");
   LPrint("Total = "); LPrintln(total);
   LPrint("b_w = ");   LPrintln(b_w);
-  LPrint("ndvi = "); LPrintln(ndvi);
+  LPrint("ndvi = "); LPrintln(ndvib);
   LPrint("evi = "); LPrintln(evi);
   LPrint("Growlight State = "); LPrintln(LightState); 
 
-  if(ndvi > .25 && evi > 0)
+  if(ndvib > .25 && evi > 0)
   {
      if ((a < c && b < c && d < c && e < c && f < c && k < o  && k < p))
      { // testing ratios
