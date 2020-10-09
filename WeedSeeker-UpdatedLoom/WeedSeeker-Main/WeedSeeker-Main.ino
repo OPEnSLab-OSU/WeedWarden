@@ -62,7 +62,7 @@ void setup()
  
 	LPrintln("\n ** Setup Complete ** ");
  
-  // pinMode(ledpin, OUTPUT);
+-  // pinMode(ledpin, OUTPUT);
   
 }
 
@@ -119,18 +119,18 @@ void loop()
   uint16_t f = as7265x["f"]; f = (int)f; Serial.println(f); // 535
   uint16_t g = as7265x["g"]; g = (int)g; Serial.println(g); // 560
   uint16_t h = as7265x["h"]; h = (int)h; Serial.println(h); // 585
-  uint16_t i = as7265x["i"]; i = (int)i; Serial.println(i); // 610
-  uint16_t j = as7265x["j"]; j = (int)j; Serial.println(j); // 645
-  uint16_t k = as7265x["k"]; k = (int)k; Serial.println(k); // 680
-  uint16_t l = as7265x["l"]; l = (int)l; Serial.println(l); // 705
-  uint16_t m = as7265x["r"]; m = (int)m; Serial.println(m); // 730
-  uint16_t n = as7265x["s"]; n = (int)n; Serial.println(n); // 760
-  uint16_t o = as7265x["t"]; o = (int)o; Serial.println(o); // 810
-  uint16_t p = as7265x["u"]; p = (int)p; Serial.println(p); // 860
-  uint16_t q = as7265x["v"]; q = (int)q; Serial.println(q); // 900
-  uint16_t r = as7265x["w"]; r = (int)r; Serial.println(r); // 940
+  uint16_t i = as7265x["i"]; i = (int)i; Serial.println(i); // 645
+  uint16_t j = as7265x["j"]; j = (int)j; Serial.println(j); // 705
+  uint16_t k = as7265x["k"]; k = (int)k; Serial.println(k); // 900
+  uint16_t l = as7265x["l"]; l = (int)l; Serial.println(l); // 940
+  uint16_t r = as7265x["r"]; r = (int)r; Serial.println(r); // 610
+  uint16_t s = as7265x["s"]; s = (int)s; Serial.println(s); // 680
+  uint16_t t = as7265x["t"]; t = (int)t; Serial.println(t); // 730
+  uint16_t u = as7265x["u"]; u = (int)u; Serial.println(u); // 760
+  uint16_t v = as7265x["v"]; v = (int)v; Serial.println(v); // 810
+  uint16_t w = as7265x["w"]; w = (int)w; Serial.println(w); // 860
 
-  float total = a + b + c + d + e + f + g + h + i + j + k + l + m + n + o + p + q + r;
+  float total = a + b + c + d + e + f + g + h + i + j + k + l + r + s + t + u + v + w;
   
   Serial.println("++++++++++++++++");  
   float a_w = a/total; Serial.println(a_w);
@@ -142,19 +142,30 @@ void loop()
   float g_w = g/total; Serial.println(g_w);
   float j_w = j/total; Serial.println(j_w); 
   float k_w = k/total; Serial.println(k_w);
-  float m_w = m/total; Serial.println(m_w);
-  float n_w = n/total; Serial.println(n_w);
-  float o_w = o/total; Serial.println(o_w);
-  float p_w = p/total; Serial.println(p_w);
+  float r_w = r/total; Serial.println(r_w);
+  float s_w = s/total; Serial.println(s_w);
+  float t_w = t/total; Serial.println(t_w);
+  float u_w = u/total; Serial.println(u_w);
+  float v_w = v/total; Serial.println(v_w);
+  float w_w = w/total; Serial.println(w_w);
 
-  float ndvib = ((n_w + o_w + p_w + e_w + f_w + g_w) - 2*(b_w + c_w + d_w))/((n_w + o_w + p_w + e_w + f_w + g_w) + 2*(b_w + c_w + d_w));
-  float psnd = ((o_w-f_w)/(o_w+f_w));
-  float evi = ((2.5*(o_w-k_w))/(o_w+6*k_w-7.5*b_w+1));
+  float ndvib = ((u + v + w + e + f + g) - 2*(b + c + d))/((u + v + w + e + f + g) + 2*(b + c + d));
+  float psnd = ((v-f)/(v+f));
+  float evi = ((2.5*(v-s))/(v+6*s-7.5*b+1));
 
   // Add Values to the JSON Package
   Loom.add_data("NDVIB", "NDVIB", ndvib);
   Loom.add_data("EVI", "EVI", evi);
   Loom.add_data("PSND", "PSND", psnd);
+
+  float ndvib_w = ((u_w + v_w + w_w + e_w + f_w + g_w) - 2*(b_w + c_w + d_w))/((u_w + v_w + w_w + e_w + f_w + g_w) + 2*(b_w + c_w + d_w));
+  float psnd_w = ((v_w-f_w)/(v_w+f_w));
+  float evi_w = ((2.5*(v_w-s_w))/(v_w+6*s_w-7.5*b_w+1));
+
+  // Add Values to the JSON Package
+  Loom.add_data("NDVIB_W", "NDVIB_W", ndvib_w);
+  Loom.add_data("EVI_W", "EVI_W", evi_w);
+  Loom.add_data("PSND_W", "PSND_W", psnd_w);
 
   // Log the data to SD Card 
   Loom.SDCARD().log(); 
@@ -168,7 +179,7 @@ void loop()
 
   if(ndvib > .25 && evi > 0)
   {
-     if ((a < c && b < c && d < c && e < c && f < c && k < o  && k < p))
+     if ((a < c && b < c && d < c && e < c && f < c && k < t  && k < v))
      { // testing ratios
       Serial.println("++++++++++++++++++++++++++++++++++++++");
       Serial.println("++++++++++ This Is A Target ++++++++++");
