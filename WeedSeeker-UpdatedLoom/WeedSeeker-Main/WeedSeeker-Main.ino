@@ -62,7 +62,7 @@ void setup()
  
 	LPrintln("\n ** Setup Complete ** ");
  
--  // pinMode(ledpin, OUTPUT);
+  // pinMode(ledpin, OUTPUT);
   
 }
 
@@ -111,28 +111,29 @@ void loop()
   //// ****  NDVI Calculation  **** ////
   Serial.println("+++++ START +++++");
   JsonObject as7265x = (SensorData["contents"].as<JsonArray>())[1]["data"];
-  uint16_t a = as7265x["a"]; a = (int)a; Serial.println(a); // 410
-  uint16_t b = as7265x["b"]; b = (int)b; Serial.println(b); // 435
-  uint16_t c = as7265x["c"]; c = (int)c; Serial.println(c); // 460
-  uint16_t d = as7265x["d"]; d = (int)d; Serial.println(d); // 485
-  uint16_t e = as7265x["e"]; e = (int)e; Serial.println(e); // 510
-  uint16_t f = as7265x["f"]; f = (int)f; Serial.println(f); // 535
-  uint16_t g = as7265x["g"]; g = (int)g; Serial.println(g); // 560
-  uint16_t h = as7265x["h"]; h = (int)h; Serial.println(h); // 585
-  uint16_t i = as7265x["i"]; i = (int)i; Serial.println(i); // 645
-  uint16_t j = as7265x["j"]; j = (int)j; Serial.println(j); // 705
-  uint16_t k = as7265x["k"]; k = (int)k; Serial.println(k); // 900
-  uint16_t l = as7265x["l"]; l = (int)l; Serial.println(l); // 940
-  uint16_t r = as7265x["r"]; r = (int)r; Serial.println(r); // 610
-  uint16_t s = as7265x["s"]; s = (int)s; Serial.println(s); // 680
-  uint16_t t = as7265x["t"]; t = (int)t; Serial.println(t); // 730
-  uint16_t u = as7265x["u"]; u = (int)u; Serial.println(u); // 760
-  uint16_t v = as7265x["v"]; v = (int)v; Serial.println(v); // 810
-  uint16_t w = as7265x["w"]; w = (int)w; Serial.println(w); // 860
+  uint16_t a = as7265x["a"]; a = (float)a; Serial.println(a); // 410
+  uint16_t b = as7265x["b"]; b = (float)b; Serial.println(b); // 435
+  uint16_t c = as7265x["c"]; c = (float)c; Serial.println(c); // 460
+  uint16_t d = as7265x["d"]; d = (float)d; Serial.println(d); // 485
+  uint16_t e = as7265x["e"]; e = (float)e; Serial.println(e); // 510
+  uint16_t f = as7265x["f"]; f = (float)f; Serial.println(f); // 535
+  uint16_t g = as7265x["g"]; g = (float)g; Serial.println(g); // 560
+  uint16_t h = as7265x["h"]; h = (float)h; Serial.println(h); // 585
+  uint16_t i = as7265x["i"]; i = (float)i; Serial.println(i); // 645
+  uint16_t j = as7265x["j"]; j = (float)j; Serial.println(j); // 705
+  uint16_t k = as7265x["k"]; k = (float)k; Serial.println(k); // 900
+  uint16_t l = as7265x["l"]; l = (float)l; Serial.println(l); // 940
+  uint16_t r = as7265x["r"]; r = (float)r; Serial.println(r); // 610
+  uint16_t s = as7265x["s"]; s = (float)s; Serial.println(s); // 680
+  uint16_t t = as7265x["t"]; t = (float)t; Serial.println(t); // 730
+  uint16_t u = as7265x["u"]; u = (float)u; Serial.println(u); // 760
+  uint16_t v = as7265x["v"]; v = (float)v; Serial.println(v); // 810
+  uint16_t w = as7265x["w"]; w = (float)w; Serial.println(w); // 860
 
   float total = a + b + c + d + e + f + g + h + i + j + k + l + r + s + t + u + v + w;
   
-  Serial.println("++++++++++++++++");  
+  Serial.println("++++++++++++++++");
+  Serial.println("++++++++++++++++");    
   float a_w = a/total; Serial.println(a_w);
   float b_w = b/total; Serial.println(b_w);
   float c_w = c/total; Serial.println(c_w);
@@ -149,8 +150,15 @@ void loop()
   float v_w = v/total; Serial.println(v_w);
   float w_w = w/total; Serial.println(w_w);
 
-  float ndvib = ((u + v + w + e + f + g) - 2*(b + c + d))/((u + v + w + e + f + g) + 2*(b + c + d));
-  float psnd = ((v-f)/(v+f));
+
+  float nd = ((u + v + w + e + f + g) - 2*(b + c + d));
+  float vib = ((u + v + w + e + f + g) + 2*(b + c + d));
+  float ndvib = nd/vib;
+
+  float ps = v-f;
+  float nd2 = v+f;
+  float psnd = ps/nd2;
+ 
   float evi = ((2.5*(v-s))/(v+6*s-7.5*b+1));
 
   // Add Values to the JSON Package
@@ -172,44 +180,49 @@ void loop()
 
   Serial.println("++++++++++++++++");
   LPrint("Total = "); LPrintln(total);
+  
   LPrint("b_w = ");   LPrintln(b_w);
   LPrint("ndvi = "); LPrintln(ndvib);
+  LPrint("ndvi_w = "); LPrintln(ndvib_w);  
   LPrint("evi = "); LPrintln(evi);
+  LPrint("evi_w = "); LPrintln(evi_w);
+  LPrint("psnd = "); LPrintln(psnd);
+  LPrint("psnd_w = "); LPrintln(psnd_w);
   LPrint("Growlight State = "); LPrintln(LightState); 
 
-  if(ndvib > .25 && evi > 0)
-  {
-     if ((a < c && b < c && d < c && e < c && f < c && k < t  && k < v))
-     { // testing ratios
-      Serial.println("++++++++++++++++++++++++++++++++++++++");
-      Serial.println("++++++++++ This Is A Target ++++++++++");
-      Serial.println("++++++++++++++++++++++++++++++++++++++");
+//  if(ndvib > .25 && evi > 0)
+//  {
+//     if ((a < c && b < c && d < c && e < c && f < c && k < t  && k < v))
+//     { // testing ratios
+//      Serial.println("++++++++++++++++++++++++++++++++++++++");
+//      Serial.println("++++++++++ This Is A Target ++++++++++");
+//      Serial.println("++++++++++++++++++++++++++++++++++++++");
+//
+//
+//      delay(1000);
+//      Loom.SDCARD().log();
+//      delay(500);
+//      
+//      // Need to turn on the 12V rail here
+//      digitalWrite(HVEn, HIGH);   // This line will set the 5V and V+ Hypnos rail to high enabling the sprayer
+//      delay(1000);                // Set this line to delay for however long you want the sprayer to spray for
+//      digitalWrite(HVEn, LOW);    // Turn off the sprayer
+//    }
+//
+//    else 
+//    {
+//      Serial.println("----------------------------------");
+//      Serial.println("++++++++++ Not A Target ++++++++++");
+//      Serial.println("----------------------------------");
+//    }
+//  }
 
-
-      delay(1000);
-      Loom.SDCARD().log();
-      delay(500);
-      
-      // Need to turn on the 12V rail here
-      digitalWrite(HVEn, HIGH);   // This line will set the 5V and V+ Hypnos rail to high enabling the sprayer
-      delay(1000);                // Set this line to delay for however long you want the sprayer to spray for
-      digitalWrite(HVEn, LOW);    // Turn off the sprayer
-    }
-
-    else 
-    {
-      Serial.println("----------------------------------");
-      Serial.println("++++++++++ Not A Target ++++++++++");
-      Serial.println("----------------------------------");
-    }
-  }
-
-  else {
-//  unlatchedRelay(0);
-    Serial.println("----------------------------------");
-    Serial.println("++++++++++ Not A Target ++++++++++");
-    Serial.println("----------------------------------");
-  }
+//  else {
+////  unlatchedRelay(0);
+//    Serial.println("----------------------------------");
+//    Serial.println("++++++++++ Not A Target ++++++++++");
+//    Serial.println("----------------------------------");
+//  }+
 
   Serial.println("+++++ End +++++"); 
   Loom.pause();
