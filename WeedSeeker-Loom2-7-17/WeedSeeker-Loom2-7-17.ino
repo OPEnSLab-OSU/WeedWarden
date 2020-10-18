@@ -17,6 +17,8 @@
 
 ///////////////////////////////////////////////////////////////////////////////
 // WeedWarden
+
+// More testing comments
 #include <Loom.h>
 #include "Snapshot.h"
 //#include "Loom_AS7265X.cpp"
@@ -46,7 +48,7 @@ void setup()
 	Loom.begin_serial(true);
 	Loom.parse_config(json_config);
 	Loom.print_config();
-  setup_ttl();
+  //setup_ttl();
 	LPrintln("\n ** Setup Complete ** ");
  
   pinMode(relaySet, OUTPUT);
@@ -111,7 +113,7 @@ void loop()
   float k_w = k/total;
   float m_w = m/total;
   float n_w = n/total;
-.
+
   float ndvib = (((m_w*730.0 + n_w*760.0 + b_w*435.0 + c_w*460.0) - (j_w*645.0 + k_w*680.0))/((m_w*730.0 + n_w*760.0 + b_w*435.0 + c_w*460.0) + (j_w*645.0 + k_w*680.0)));
 //  Serial.println("++++++++++++++++");
 //  Serial.println(total);
