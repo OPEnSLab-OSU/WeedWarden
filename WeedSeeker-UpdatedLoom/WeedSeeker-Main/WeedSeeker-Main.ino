@@ -31,6 +31,7 @@ const char* json_config =
 #define VBATPIN A7  // pin connected to the 3.7V battery 
 #define LVEn 5      // pin 5 is the 3.3V Enable
 #define HVEn 6      // pin 6 is the 5V and V+ Enable 
+#define Buzzer A2   // Set the buzzer pin as A2 
 
 
 // Set enabled modules
@@ -50,9 +51,11 @@ void setup()
 { 
   pinMode(LVEn, OUTPUT);    // LVEn is the pin that enables the hypnos board 3.3V 
   pinMode(HVEn, OUTPUT);    // Enable the 5V output
+  pinMode(Buzzer, OUTPUT); 
 
   digitalWrite(HVEn, LOW);  // Initally set the sprayer to be off 
   digitalWrite(LVEn, LOW);  // Turn on the 3.3V Rail  for I2C control and SD card logging
+  digitalWrite(Buzzer, LOW); 
 
 	// Loom.begin_LED();      dont need this linbe if we tie LED to sprayer power 
 
@@ -205,7 +208,9 @@ void loop()
 //      
 //      // Need to turn on the 12V rail here
 //      digitalWrite(HVEn, HIGH);   // This line will set the 5V and V+ Hypnos rail to high enabling the sprayer
+//      digitalWrite(Buzzer, HIGH); 
 //      delay(1000);                // Set this line to delay for however long you want the sprayer to spray for
+//      digitalWrite(Buzzer, LOW); 
 //      digitalWrite(HVEn, LOW);    // Turn off the sprayer
 //    }
 //
