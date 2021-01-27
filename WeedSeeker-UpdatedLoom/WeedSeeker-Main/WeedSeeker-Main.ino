@@ -255,7 +255,7 @@ void loop()
     // Add Values to the JSON Package
     Loom.add_data("NDVIB", "NDVIB", ndvib);
     Loom.add_data("EVI", "EVI", evi);
-    Loom.add_data("PSND", "PSND", psnd);
+    Loom.add_data("Threshold", "Threshold", total_ndvi);
 
     float ndvib_w = ((u_w + v_w + w_w + e_w + f_w + g_w) - 2*(b_w + c_w + d_w))/((u_w + v_w + w_w + e_w + f_w + g_w) + 2*(b_w + c_w + d_w));
     float psnd_w = ((v_w-f_w)/(v_w+f_w));
