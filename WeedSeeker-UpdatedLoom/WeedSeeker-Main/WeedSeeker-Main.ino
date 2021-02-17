@@ -128,7 +128,7 @@ void calibrate()
   for(int i=0; i<16; i++)
     total_ndvi += ndvi[i];
   
-  total_ndvi=(total_ndvi/16)+.02;
+  total_ndvi=(total_ndvi/16)+.015;
 
   // loop to calculate Standard deviation 
   float STD_sigma = 0;
