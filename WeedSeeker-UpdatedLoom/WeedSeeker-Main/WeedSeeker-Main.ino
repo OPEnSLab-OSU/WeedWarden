@@ -24,8 +24,8 @@ const char* json_config =
 ;
 
 #define VBATPIN A7           // pin connected to the 3.7V battery 
-#define 3.3V_Rail_Enable 5   // pin 5 is the 3.3V Enable
-#define 12V_Rail_Enable 6    // pin 6 is the 5V and V+ Enable  
+#define LV_Rail_Enable 5   // pin 5 is the 3.3V Enable
+#define HV_Rail_Enable 6    // pin 6 is the 5V and 12V+ Enable  
 
 // Set enabled modules
 LoomFactory<
@@ -48,14 +48,14 @@ LoomManager Loom{ &ModuleFactory };
 void setup() 
 { 
   
-  pinMode(3.3V_Rail_Enable, OUTPUT);    // 3.3V_Rail_Enable is the pin that enables the hypnos board 3.3V 
-  pinMode(12V_Rail_Enable, OUTPUT);     // 12V_Rail_Enable is the variable that will control the 5V and 12V Rails on the Hypnos board 
+  pinMode(LV_Rail_Enable, OUTPUT);    // LV_Rail_Enable is the pin that enables the hypnos board 3.3V 
+  pinMode(HV_Rail_Enable, OUTPUT);     // HV_Rail_Enable is the variable that will control the 5V and 12V Rails on the Hypnos board 
 
   // 3.3V Enable is ACTIVE LOW.
-  digitalWrite(3.3V_Rail_Enable, LOW);  // Turn on the 3.3V Rail for I2C control and SD card logging
+  digitalWrite(LV_Rail_Enable, LOW);  // Turn on the 3.3V Rail for I2C control and SD card logging
 
   // 5V/12V rail is ACTIVE HIGH
-  digitalWrite(12V_Rail_Enable, LOW);   // Start with the 12V_Rail_Enable off 
+  digitalWrite(HV_Rail_Enable, LOW);   // Start with the HV_Rail_Enable off 
 
   // Configure Loom and Serial 
 	Loom.begin_serial(true);
@@ -125,11 +125,11 @@ void calibrate()
   
   threshold = (threshold / 16) + offset;  // divide by 16 to average values then add an offset to the value
 
-  // Turn on the 12V_Rail_Enable for 6 seconds so that you know the calibration worked
+  // Turn on the HV_Rail_Enable for 6 seconds so that you know the calibration worked
   // In our tests we had the 5V rail hooked up to a 5V buzzer so that we knew when the calibration had finished
-  digitalWrite(12V_Rail_Enable, HIGH); 
+  digitalWrite(HV_Rail_Enable, HIGH); 
   delay(6000);               
-  digitalWrite(12V_Rail_Enable, LOW); 
+  digitalWrite(HV_Rail_Enable, LOW); 
 } // Calibrate 
 
 
@@ -169,9 +169,6 @@ void loop()
 
     // Store data in JSON package
     JsonObject SensorData = Loom.package(); 
-
-    // Add the state of the Growlight to the file 
-    Loom.add_data("LightState", "LightState", LightState);
 
     // Serialize the JSON Object and print it to the Serial Monitor
     serializeJsonPretty(SensorData, Serial); 
@@ -275,7 +272,7 @@ void loop()
         Serial.println("++++++++++ This Is A Target ++++++++++");
         Serial.println("++++++++++++++++++++++++++++++++++++++");
 
-        digitalWrite(12V_Rail_Enable, HIGH);   // Turn on the 12V_Rail_Enable if grass is detected
+        digitalWrite(HV_Rail_Enable, HIGH);   // Turn on the HV_Rail_Enable if grass is detected
 
     } // if
     else {
@@ -283,7 +280,7 @@ void loop()
       Serial.println("++++++++++ Not A Target ++++++++++");
       Serial.println("----------------------------------");
 
-      digitalWrite(12V_Rail_Enable, LOW);  // Turn the 12V_Rail_Enable off if dirt is detected
+      digitalWrite(HV_Rail_Enable, LOW);  // Turn the HV_Rail_Enable off if dirt is detected
     } // else
 
     Serial.println("+++++ End +++++"); 
