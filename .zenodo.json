@@ -1,0 +1,19 @@
+{
+    "creators": [
+        {
+            "affiliation": "Openly Published Environmental Sensing (OPEnS) Lab, Department of Electrical Engineering and Computer Science, Oregon State University",
+            "name": "Liam Duncan"
+        }
+    ],
+    "description": "The Weed Warden is a low-cost (<$500) weed detection sensor that can be mounted on rovers or tractors. The Weed Warden uses a spectral triad sensor to detect weeds and can then trigger a weed removal system such as a sprayer when weeds are detected.  The system uses the normalized difference vegetation index (NDVI) to measure the difference between near-infrared (which vegetation strongly reflects) and red light (which vegetation absorbs) to produce a value that ranges from -1 to +1 which will indicate if there is plant life under the sensor.",
+    "keywords": [
+        "Open-Source Hardware", 
+        "Environmental Sensing", 
+        "Spectral Sensing", 
+        "Spectroscopy"
+    ],
+    "license": {
+        "id": "gpl-3.0"
+    },
+    "title": "Weed Warden"
+}
