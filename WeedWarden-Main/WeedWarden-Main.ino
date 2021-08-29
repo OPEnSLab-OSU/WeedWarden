@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 
-// FileName: WeedSeeker-Main.ino 
+// FileName: WeedWarden-Main.ino 
 // FileType: Arduino Source code file
 // Author: Liam Duncan
 // Organization: Oregon State Open Sensing Lab (OPEnS) 
@@ -9,12 +9,12 @@
 // Description: 
 // This is the code for the OPEnS Lab Weed Warden. 
 // This code is meant to be uploaded to the feather M0 board and used to detect vegetation. 
-// Default setting for this code are to use the NDVIB algorithm and a threshold of .015 over the calibration value
+// Default setting for this code are to use the ENDVI algorithm and a threshold of .015 over the calibration value
 
 ///////////////////////////////////////////////////////////////////////////////
 
 // Include the OPEnS Lab Loom library 
-// https://github.com/OPEnSLab-OSU/Loom/wiki/Quick-Start
+// https://github.com/OPEnSLab-OSU/Loom/wiki/Arduino-and-Loom-Manual-Setup
 #include <Loom.h>
 
 
@@ -45,12 +45,12 @@ LoomManager Loom{ &ModuleFactory };
 
 
 // This is the indicator index choice that the sensor will use 
-// Choices are "ndvib", "ndvi", "evi", "psnd", and "custom"
+// Choices are "endvi", "ndvi", "evi", "psnd", and "custom"
 // If custom is selected the user will need to fill out their 
 // custom indicator index in the index_algorithm function
- String algorithm_choice = "ndvib";   
+ String algorithm_choice = "endvi";   
 
-// if using an index other than "ndvib", this value may need to be changed
+// if using an index other than "endvi", this value may need to be changed
 // The purpose of this offset value is to ensure that there are minimal false 
 // positives by making the calibration threshold value higher than the value of 
 // the dirt sample
@@ -86,7 +86,7 @@ void setup()
 //===                     index_algorithm                          ====
 //===                                                              ====
 //=== This function will compute the desired indication algorithm  ====
-//=== The function currently calculated NDVIB indicator index but  ====
+//=== The function currently calculated ENDVI indicator index but  ====
 //=== can be changed if desired. to change the index use the       ====
 //=== wavelength values to calculate a new index and set it equal  ====
 //=== to "index"                                                   ==== 
@@ -116,12 +116,12 @@ float index_algorithm(JsonObject as7265x, String choice)
 
   float index;  // This is the variable that holds the indicator index value
 
-  // This statment will calculate the NDVIB Index
-  if(choice == "ndvib")
+  // This statment will calculate the ENDVI Index
+  if(choice == "endvi")
   {
-  float nd = ((u + v + w + e + f + g) - 2*(b + c + d));  // calculate top half of NDVIB
-  float vib = ((u + v + w + e + f + g) + 2*(b + c + d)); // Calculate bottom half of NDVIB
-  index = nd/vib;   // finish calculating the index value
+  float en = ((u + v + w + e + f + g) - 2*(b + c + d));  // calculate top half of ENDVI
+  float dvi = ((u + v + w + e + f + g) + 2*(b + c + d)); // Calculate bottom half of ENDVI
+  index = en/dvi;   // finish calculating the index value
   } // if 
 
   // This statment will calculte the NDVI index
@@ -271,7 +271,7 @@ void loop()
     float w_w = w/total; //Serial.println(w_w);
 
     // calculate the indicator index Value
-    float ndvib = index_algorithm(as7265x, algorithm_choice); 
+    float endvi = index_algorithm(as7265x, algorithm_choice); 
 
     // Calculate some other indices that are not used
 
@@ -284,12 +284,12 @@ void loop()
     float evi = ((2.5*(v-s))/(v+6*s-7.5*b+1));
 
     // Add Values to the JSON Package so that they will be logged to SD Card
-    Loom.add_data("NDVIB", "NDVIB", ndvib);
+    Loom.add_data("ENDVI", "ENDVI", endvi);
     Loom.add_data("EVI", "EVI", evi);
     Loom.add_data("Threshold", "Threshold", threshold);
 
-    // Calculate normalized NDVIB 
-    float ndvib_w = ((u_w + v_w + w_w + e_w + f_w + g_w) - 2*(b_w + c_w + d_w))/((u_w + v_w + w_w + e_w + f_w + g_w) + 2*(b_w + c_w + d_w));
+    // Calculate normalized ENDVI
+    float endvi_w = ((u_w + v_w + w_w + e_w + f_w + g_w) - 2*(b_w + c_w + d_w))/((u_w + v_w + w_w + e_w + f_w + g_w) + 2*(b_w + c_w + d_w));
     
     // Calculate normalized psnd 
     float psnd_w = ((v_w-f_w)/(v_w+f_w));
@@ -298,7 +298,7 @@ void loop()
     float evi_w = ((2.5*(v_w-s_w))/(v_w+6*s_w-7.5*b_w+1));
 
     // Add Values to the JSON Package
-    Loom.add_data("NDVIB_W", "NDVIB_W", ndvib_w);
+    Loom.add_data("ENDVI_W", "ENDVI_W", endvi_w);
     Loom.add_data("EVI_W", "EVI_W", evi_w);
     Loom.add_data("PSND_W", "PSND_W", psnd_w);
 
@@ -309,12 +309,12 @@ void loop()
     Serial.println("++++++++++++++++");
     LPrint("Total = "); LPrintln(total);
     
-    LPrint("ndvi = "); LPrintln(ndvib);
+    LPrint("endvi = "); LPrintln(endvi);
     LPrint("threshold = "); LPrintln(threshold);  
 
 
     // Compare the threshold value to the measured value to determine the presence of vegetation
-    if(threshold < ndvib)
+    if(threshold < endvi)
     {
 
         Serial.println("++++++++++++++++++++++++++++++++++++++");
