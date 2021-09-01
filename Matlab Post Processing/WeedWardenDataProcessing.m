@@ -62,10 +62,10 @@ patch(p1, p1y, 'green', 'EdgeColor', 'none');
 alpha(0.3); 
 
 legend('410','435','460','485','510','535','560','585','610','645','680','705','730','760','810','860','900','940')
-title("Combined Raw Wavelength Data for 12 inch Test")
+%title("Combined Raw Wavelength Data for 12 inch Test")
 
 xlabel('Packet Number')
-ylabel('Wavelength Intensity')
+ylabel('Relative Responsivity')
 
 set(gca,'FontSize',30)
 
@@ -93,10 +93,10 @@ patch(p1, p1y, 'green', 'EdgeColor', 'none');
 
 alpha(0.3); 
 
-legend('NDVIB','NDVI','EVI'); 
-title('NDVIB, NDVI, and EVI Indicies Plotted for 12 Inch Test');
+legend('ENDVI','NDVI','EVI'); 
+%title('ENDVI, NDVI, and EVI Indicies Plotted for 12 Inch Test');
 xlabel('Packet Number') 
-ylabel('Index Number') 
+ylabel('Index Value') 
 set(gca,'FontSize',30)
 
 
@@ -120,10 +120,10 @@ patch(p1, p1y, 'green', 'EdgeColor', 'none');
 
 alpha(0.3); 
 
-legend('NDVIB','Calibration Threshold'); 
-title('NDVIB Index and Calibration Threshold Plotted for 12 Inch Test', 'FontSize', 24);
+legend('ENDVI','Calibration Threshold'); 
+%title('ENDVI Index and Calibration Threshold Plotted for 12 Inch Test', 'FontSize', 24);
 xlabel('Packet Number', 'FontSize', 24) 
-ylabel('Index Number', 'FontSize', 24) 
+ylabel('Index Value', 'FontSize', 24) 
 set(gca,'FontSize',30)
 
 
@@ -187,10 +187,10 @@ patch(p1, p1y, 'green', 'EdgeColor', 'none');
 alpha(0.3); 
 
 legend('410','435','460','485','510','535','560','585','610','645','680','705','730','760','810','860','900','940')
-title("Combined Raw Wavelength Data for 16 inch Test")
+%title("Combined Raw Wavelength Data for 16 inch Test")
 
 xlabel('Packet Number')
-ylabel('Wavelength Intensity')
+ylabel('Relative Responsivity')
 
 set(gca,'FontSize',30)
 
@@ -217,10 +217,10 @@ patch(p1, p1y, 'green', 'EdgeColor', 'none');
 
 alpha(0.3); 
 
-legend('NDVIB','NDVI','EVI'); 
-title('NDVIB, NDVI, and EVI Indicies Plotted for 16 Inch Test');
+legend('ENDVI','NDVI','EVI'); 
+%title('ENDVI, NDVI, and EVI Indicies Plotted for 16 Inch Test');
 xlabel('Packet Number') 
-ylabel('Index Number') 
+ylabel('Index Value') 
 
 set(gca,'FontSize',30)
 
@@ -244,9 +244,9 @@ patch(p1, p1y, 'green', 'EdgeColor', 'none');
 
 alpha(0.3); 
 
-legend('NDVIB','Calibration Threshold'); 
-title('NDVIB Index and Calibration Threshold Plotted for 16 Inch Test');
+legend('ENDVI','Calibration Threshold'); 
+%title('ENDVI Index and Calibration Threshold Plotted for 16 Inch Test');
 xlabel('Packet Number') 
-ylabel('Index Number') 
+ylabel('Index Value') 
 set(gca,'FontSize',30)
 
